@@ -4,4 +4,4 @@ app.use("/User/", require("./User"));
 
 app.use("/FavoritePlant/", require("./FavoritePlant"));
 
-module.exports = app ;
+module.exports = app;

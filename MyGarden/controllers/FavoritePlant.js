@@ -4,16 +4,16 @@ const FavoritePlant = require("../models/FavoritePlant");
 const { ObjectId } = require("mongodb");
 
 exports.showPlant = async (req, res) => {
-  console.log("req.body: ", req.body);
   try {
     let msg = req.body.keyword;
-    console.log(msg);
-    const inforPlant = await Plant.find({name: "Xương rồng"});
+    // console.log(msg);
+    const inforPlant = await Plant.find({
+      name: { $regex: ".*xương rồng.*", $options: "i" },
+    });
 
-    console.log(inforPlant);
     return res.status(200).json(inforPlant);
   } catch (error) {
-    return res.status(400).json({ msg: error });
+    return res.status(400).json({ msg: error.message });
   }
 };
 
@@ -43,9 +43,8 @@ exports.addLovePlant = async (req, res) => {
 };
 
 exports.getMyGarden = async (req, res) => {
-    try {
-        
-    } catch (error) {
-        res.status(400).json(error);
-    }
+  try {
+  } catch (error) {
+    res.status(400).json(error);
+  }
 };
