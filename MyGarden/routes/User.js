@@ -10,7 +10,7 @@ const {
 } = require("../controllers/user");
 
 // res user profile
-router.route("/:userID").patch(editProfile).get(getProfile);
+router.route("/:userID").post(editProfile).get(getProfile);
 
 // register
 router.route("/register").post(register);

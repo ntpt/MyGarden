@@ -35,8 +35,8 @@ exports.editProfile = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
   var userID = req.params.userID;
-
   const user = await User.findById(userID).select("name avatar email phone ");
+  console.log(user);
 };
 
 exports.login = async (req, res) => {
