@@ -9,11 +9,16 @@ const {
   
 } = require("../controllers/user");
 
+// register
+router.route("/register").post(register);
+
+// login
+router.route("/login").post(login);
+
 // res user profile
 router.route("/:userID").post(editProfile).get(getProfile);
 
-// register
-router.route("/register").post(register);
+
 
 // login
 router.route("/login").post(login);

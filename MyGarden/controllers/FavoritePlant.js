@@ -5,7 +5,9 @@ const { ObjectId } = require("mongodb");
 
 exports.showPlant = async (req, res) => {
   try {
+    console.log("showPlant");
     let msg = req.body.keyword;
+
     const inforPlant = await Plant.find({
       name: { $regex: ".*" + msg + ".*", $options: "i" },
     });
@@ -20,28 +22,38 @@ exports.showPlantsSearched = async (req, res) => {};
 
 exports.addLovePlant = async (req, res) => {
   try {
-    const userID = req.params.userID;
-    const plantID = req.params.plantID;
+    const userID = req.body.userID;
+    const plantID = req.body.plantID;
 
     let user = await User.findById(userID);
+    console.log(user.favoritePlant);
 
-      if (user.favoritePlant.indexOf(plantID) == -1) {
-        console.log("plant of user" + user.favoritePlant[i]);
-        console.log("plantID" + plantID);
+    if (user.favoritePlant.indexOf(plantID) === -1) {
+      
+      console.log(req.body);
 
-        const lovePlant = new FavoritePlant({
-          id: req.params.plantID,
-          description: req.body.description,
-          image: req.body.image,
-        });
+      const lovePlant = new FavoritePlant({
+        "userID": userID,
+        "plantID": plantID,
+        "description": req.body.description,
+        "image": req.body.image,
+      });
+      await lovePlant.save(function(err, doc){
+          console.log(doc)
+          console.log(err)
+      });
 
-        user.favoritePlant.push(lovePlant);
-        await user.save();
+      console.log(lovePlant.id);
 
-        return res.status(400).json({ msg: "sussces" });
-      } else {
-        return res.status(400).json({ msg: "Already love plant" });
-      }
+      user.favoritePlant.push(plantID);
+      await user.save();
+
+      return res.status(400).json({ msg: "sussces" });
+    } else {
+      
+      return res.status(400).json({ msg: "Already love plant" });
+    }
+   
     
   } catch (error) {
     return res.status(400).json({ msg: error });

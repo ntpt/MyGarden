@@ -13,5 +13,5 @@ router.route("/search").get(showPlant);
 
 router.route("/:userID").get(showPlantsSearched).post(getMyGarden);
 
-router.route("/:userID/:plantID").post(addLovePlant);
+router.route("/").post(addLovePlant);
 module.exports = router;

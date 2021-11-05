@@ -34,13 +34,25 @@ exports.editProfile = async (req, res) => {
 };
 
 exports.getProfile = async (req, res) => {
+ 
   var userID = req.params.userID;
-  const user = await User.findById(userID).select("name avatar email phone ");
-  console.log(user);
+
+  try {
+    const user = await User.findById(userID).select("name avatar email phone favoritePlant ");
+   
+    return res.status(200).json(user);
+    
+  } catch (error) {
+    return res.status(400).json({ msg: "User does not exist" });
+  }
+
+  
+ 
+  
 };
 
 exports.login = async (req, res) => {
-  console.log("hehe");
+  console.log("login");
   User.findOne({ email: req.body.email }).then((user) => {
     if (!user) {
       res.status(401).json({ msg: "not-registered" });
@@ -59,6 +71,7 @@ exports.login = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
+  console.log("register");
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       res.status(400).json({ msg: "existed" });

@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const GroupSchema = new mongoose.Schema({
   userID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
+    // ref: "User",
   },
 
   plantID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Plant",
+    type: String,
+    // ref: "Plant",
   },
 
   description: {
@@ -25,4 +25,4 @@ const GroupSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("FavouritePlant", GroupSchema);
+module.exports = mongoose.model("favorite_plants", GroupSchema);
