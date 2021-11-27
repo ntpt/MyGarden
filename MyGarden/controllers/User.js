@@ -45,14 +45,10 @@ exports.getProfile = async (req, res) => {
   } catch (error) {
     return res.status(400).json({ msg: "User does not exist" });
   }
-
-  
- 
   
 };
 
 exports.login = async (req, res) => {
-  console.log("login");
   User.findOne({ email: req.body.email }).then((user) => {
     if (!user) {
       res.status(401).json({ msg: "not-registered" });
@@ -61,7 +57,7 @@ exports.login = async (req, res) => {
       bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
         if (err) throw err;
         if (isMatch) {
-          res.status(201).json(user);
+          res.status(201).json({msg:"correct"});
         } else {
           res.status(400).json({ msg: "incorrect" });
         }
@@ -71,7 +67,6 @@ exports.login = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
-  console.log("register");
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       res.status(400).json({ msg: "existed" });

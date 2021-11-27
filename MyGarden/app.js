@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const apiRouter = require("./routes/index");
 const app = express();
+const multer = require('multer')
+const busboy = require('connect-busboy');
 
 //load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -13,6 +15,8 @@ dotenv.config({ path: "./config/config.env" });
 connectDB();
 
 // Enable CORS
+// app.use(express.urlencoded({ extended: true }));
+app.use(busboy());
 app.use(cors());
 
 // Body parser
