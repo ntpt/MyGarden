@@ -6,7 +6,7 @@ const {
   getMyGarden,
   addLovePlant,
 
-} = require("../controllers/FavoritePlant");
+} = require("../controllers/FavoritePlant.js");
 
 router.route("/search").get(showPlant);
 

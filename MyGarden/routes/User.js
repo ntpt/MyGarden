@@ -7,7 +7,7 @@ const {
   login,
   register,
   
-} = require("../controllers/user");
+} = require("../controllers/User.js");
 
 // register
 router.route("/register").post(register);
