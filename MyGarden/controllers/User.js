@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const { ObjectId } = require("mongodb");
 
 exports.editProfile = async (req, res) => {
   try {
@@ -34,18 +33,17 @@ exports.editProfile = async (req, res) => {
 };
 
 exports.getProfile = async (req, res) => {
- 
   var userID = req.params.userID;
 
   try {
-    const user = await User.findById(userID).select("name avatar email phone favoritePlant ");
-   
+    const user = await User.findById(userID).select(
+      "name avatar email phone favoritePlant "
+    );
+
     return res.status(200).json(user);
-    
   } catch (error) {
     return res.status(400).json({ msg: "User does not exist" });
   }
-  
 };
 
 exports.login = async (req, res) => {
@@ -57,7 +55,7 @@ exports.login = async (req, res) => {
       bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
         if (err) throw err;
         if (isMatch) {
-          res.status(201).json({msg:"correct"});
+          res.status(201).json({ msg: "correct" });
         } else {
           res.status(400).json({ msg: "incorrect" });
         }
