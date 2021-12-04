@@ -23,7 +23,7 @@ exports.editProfile = async (req, res) => {
 
     const updateUser = await User.updateOne(
       { _id: userID },
-      { $set: { name, email, phone, avatar, currency, balance } }
+      { $set: { name, email, phone, avatar, favoritePlant } }
     );
 
     res.status(200).json(updateUser);
@@ -42,7 +42,7 @@ exports.getProfile = async (req, res) => {
 
     return res.status(200).json(user);
   } catch (error) {
-    return res.status(400).json({ msg: "User does not exist" });
+    return res.status(400).json({ msg:err });
   }
 };
 
@@ -55,9 +55,9 @@ exports.login = async (req, res) => {
       bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
         if (err) throw err;
         if (isMatch) {
-          res.status(201).json({ msg: "correct" });
+          res.status(201).json({ user });
         } else {
-          res.status(400).json({ msg: "incorrect" });
+          res.status(400).json(error);
         }
       });
     }

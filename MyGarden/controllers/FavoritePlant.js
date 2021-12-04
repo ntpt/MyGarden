@@ -4,7 +4,6 @@ const FavoritePlant = require("../models/FavoritePlant");
 
 exports.showPlant = async (req, res) => {
   try {
-    console.log("showPlant");
     let msg = req.query.keyword;
 
     const inforPlant = await Plant.find({
@@ -13,7 +12,9 @@ exports.showPlant = async (req, res) => {
 
     return res.status(200).json(inforPlant);
   } catch (error) {
-    return res.status(400).json({ msg: error.message });
+    return res
+      .status(400)
+      .json({ error });
   }
 };
 
@@ -39,7 +40,7 @@ exports.addLovePlant = async (req, res) => {
       user.favoritePlant.push(plantID);
       await user.save();
 
-      return res.status(400).json({ msg: "sussces" });
+      return res.status(200).json({ msg: "sussces" });
     } else {
       return res.status(400).json({ msg: "Already love plant" });
     }
@@ -52,9 +53,17 @@ exports.getMyGarden = async (req, res) => {
   try {
     const userID = req.params.userID;
 
-    let garden = await User.findById(userID).select("favoritePlant");
+    let gardenFavoritePlant = await FavoritePlant.find({ userID: userID });
 
-    return res.status(200).json(garden);
+    let listGarden = await gardenFavoritePlant.map(async (item) => {
+      let gardenName = await Plant.findById(item.plantID).select("name");
+
+      return { ...item._doc, name: gardenName.name };
+    });
+
+    let data = await Promise.all(listGarden);
+
+    return res.status(200).json(data);
   } catch (error) {
     res.status(400).json(error);
   }
