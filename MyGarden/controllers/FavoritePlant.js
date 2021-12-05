@@ -12,9 +12,7 @@ exports.showPlant = async (req, res) => {
 
     return res.status(200).json(inforPlant);
   } catch (error) {
-    return res
-      .status(400)
-      .json({ error });
+    return res.status(400).json({ error });
   }
 };
 
@@ -46,6 +44,22 @@ exports.addLovePlant = async (req, res) => {
     }
   } catch (error) {
     return res.status(400).json({ msg: error });
+  }
+};
+
+exports.deleteLovePlant = async (req, res) => {
+  try {
+    const userID = req.params.userID;
+    const plantID = req.params.plantID;
+
+    let removedFavoritePlant = await FavoritePlant.findOneAndDelete({
+      userID: userID,
+      plantID: plantID,
+    });
+
+    return res.status(200).json(removedFavoritePlant);
+  } catch (error) {
+    return res.status(400).json(error);
   }
 };
 

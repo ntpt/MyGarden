@@ -10,20 +10,9 @@ exports.editProfile = async (req, res) => {
     var phone = req.body.phone != undefined ? req.body.phone : user.phone;
     var avatar = req.body.avatar != undefined ? req.body.avatar : user.avatar;
 
-    if (req.body.password != "" && req.body.password != undefined) {
-      password = req.body.password;
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash) => {
-          if (err) throw err;
-          user.password = hash;
-          user.save().catch((error) => res.status(400).json(error));
-        });
-      });
-    }
-
     const updateUser = await User.updateOne(
       { _id: userID },
-      { $set: { name, email, phone, avatar, favoritePlant } }
+      { $set: { name, email, phone, avatar } }
     );
 
     res.status(200).json(updateUser);
@@ -42,7 +31,7 @@ exports.getProfile = async (req, res) => {
 
     return res.status(200).json(user);
   } catch (error) {
-    return res.status(400).json({ msg:err });
+    return res.status(400).json({ msg: err });
   }
 };
 
