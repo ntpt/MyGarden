@@ -21,22 +21,26 @@ exports.addLovePlant = async (req, res) => {
     const userID = req.body.userID;
     const plantID = req.body.plantID;
 
-    let user = await User.findById(userID);
+    let idLovePlant = await FavoritePlant.findOne({
+      userID: userID,
+      plantID: plantID,
+    });
 
-    if (user.favoritePlant.indexOf(plantID) === -1) {
+    if (idLovePlant === null) {
       const lovePlant = new FavoritePlant({
         userID: userID,
         plantID: plantID,
         description: req.body.description,
         image: req.body.image,
       });
+
       await lovePlant.save(function (err, doc) {
         console.log(doc);
         console.log(err);
       });
 
-      user.favoritePlant.push(plantID);
-      await user.save();
+      // FavoritePlant.push(lovePlant);
+      // await FavoritePlant.save();
 
       return res.status(200).json({ msg: "sussces" });
     } else {

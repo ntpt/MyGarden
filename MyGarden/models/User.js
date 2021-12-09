@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  favoritePlant: [mongoose.Schema.Types.ObjectId],
+  //favoritePlant: [mongoose.Schema.Types.ObjectId],
 });
 
 module.exports = mongoose.model("user", UserSchema);
